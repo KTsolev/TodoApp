@@ -1,0 +1,19 @@
+.list-group {
+  display: flex;
+  flex-direction: column;
+}
+.list-group-item, .row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-group-item--pending {
+  color: orange;
+}
+
+.list-group-item--stroked {
+    text-decoration: line-through;
+    color: grey;
+}

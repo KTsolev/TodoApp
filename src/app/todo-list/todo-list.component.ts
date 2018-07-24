@@ -20,24 +20,25 @@ export class TodoListComponent implements OnInit {
   }
 
   toggleCompleted(id:number):void {
-    this.todoItemsService.toggleCompleted(id);
+     this.todoItemsService.toggleCompleted(id);
+     this.filteredItems = this.todoItemsService.getTodoItems();
   }
 
   removeItem(id:number):void {
     this.todoItemsService.removeItem(id);
-    this.items = this.todoItemsService.getTodoItems();
+    this.filteredItems = this.todoItemsService.getTodoItems();
   }
 
   sortItem(param:string):void {
     switch(param) {
       case 'completed':
-        this.items.sort(this._sortByIsCompleted);
+        this.filteredItems.sort(this.todoItemsService.sortByIsCompleted);
       break;
       case 'new':
-        this.items.sort(this._sortByIsNew);
+        this.filteredItems.sort(this.todoItemsService.sortByIsNew);
       break;
       case 'name':
-        this.items.sort(this._sortByName);
+        this.filteredItems.sort(this.todoItemsService.sortByName);
       break;
       default:
       break;
@@ -45,14 +46,12 @@ export class TodoListComponent implements OnInit {
     this.todoItemsService.saveItemsToStore(this.items);
   }
 
-  searchByName(el:any) {
-    console.log(el.value);
-    if (el.value === '') {
+  searchByTitle(el:any):void {
+    const value = el.value;
+    if (value === '') {
       this.filteredItems = this.items;
     } else {
-      this.filteredItems = this.items.filter((item) => {
-        return item.title.includes(el.value, 0);
-      })
+      this.filteredItems = this.todoItemsService.searchByTitle(value);
     }
   }
 
@@ -64,34 +63,7 @@ export class TodoListComponent implements OnInit {
         isNew: true,
     };
     this.todoItemsService.addNewTodoItem(newItem);
-    this.items = this.todoItemsService.getTodoItems();
+    this.filteredItems = this.todoItemsService.getTodoItems();
     el.value = '';
-  }
-
-  _sortByIsCompleted(itemA, itemB):number {
-    const item1:boolean = itemA.completed;
-    const item2:boolean = itemB.completed;
-
-    return (item1 === item2) ? 0 : item2 > item1 ? 1: -1;
-  }
-
-  _sortByIsNew(itemA, itemB):number {
-    const item1:boolean = itemA.isNew;
-    const item2:boolean = itemB.isNew;
-
-    return (item1 === item2) ? 0 : item2 > item1 ? 1: -1;
-  }
-
-  _sortByName(objA, objB):number {
-    var nameA = objA.title.toUpperCase();
-    var nameB = objB.title.toUpperCase();
-    if (nameA < nameB) {
-     return -1;
-    }
-    if (nameA > nameB) {
-     return 1;
-    }
-
-    return 0;
   }
 }
