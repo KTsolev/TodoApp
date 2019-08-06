@@ -1,6 +1,6 @@
 # TodoApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8. and it is simple Todo app, which was project for course on Angular that I took.
 
 ## Development server
 
